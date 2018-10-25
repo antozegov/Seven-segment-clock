@@ -13,6 +13,9 @@ namespace Seven_Segment_Clock
     public partial class Main : Form
     {
         Timer clockTimer = new Timer();
+        Timer clockDotTimer = new Timer();
+        bool blink = true;
+        
         public Main()
         {
             InitializeComponent();
@@ -21,21 +24,21 @@ namespace Seven_Segment_Clock
         private void ResetColor()
         {
             //First digit
-            picSegmentA1.BackColor = ActiveControl.BackColor;
-            picSegmentB1.BackColor = ActiveControl.BackColor;
-            picSegmentC1.BackColor = ActiveControl.BackColor;
-            picSegmentD1.BackColor = ActiveControl.BackColor;
-            picSegmentE1.BackColor = ActiveControl.BackColor;
-            picSegmentF1.BackColor = ActiveControl.BackColor;
-            picSegmentG1.BackColor = ActiveControl.BackColor;
+            picSegmentA1.BackColor = this.BackColor;
+            picSegmentB1.BackColor = this.BackColor;
+            picSegmentC1.BackColor = this.BackColor;
+            picSegmentD1.BackColor = this.BackColor;
+            picSegmentE1.BackColor = this.BackColor;
+            picSegmentF1.BackColor = this.BackColor;
+            picSegmentG1.BackColor = this.BackColor;
             //Second digit
-            picSegmentA2.BackColor = ActiveControl.BackColor;
-            picSegmentB2.BackColor = ActiveControl.BackColor;
-            picSegmentC2.BackColor = ActiveControl.BackColor;
-            picSegmentD2.BackColor = ActiveControl.BackColor;
-            picSegmentE2.BackColor = ActiveControl.BackColor;
-            picSegmentF2.BackColor = ActiveControl.BackColor;
-            picSegmentG2.BackColor = ActiveControl.BackColor;
+            picSegmentA2.BackColor = this.BackColor;
+            picSegmentB2.BackColor = this.BackColor;
+            picSegmentC2.BackColor = this.BackColor;
+            picSegmentD2.BackColor = this.BackColor;
+            picSegmentE2.BackColor = this.BackColor;
+            picSegmentF2.BackColor = this.BackColor;
+            picSegmentG2.BackColor = this.BackColor;
         }
         private void DrawSecondDigit(char digit)
         {
@@ -113,7 +116,8 @@ namespace Seven_Segment_Clock
             }
         }
         private void DrawFirstDigit(char digit)
-        {;
+        {
+            ;
             switch (digit)
             {
                 case '0':
@@ -191,22 +195,43 @@ namespace Seven_Segment_Clock
         private void Main_Load(object sender, EventArgs e)
         {
             clockTimer.Interval = 1000;
+            clockDotTimer.Interval = 750;
             clockTimer.Tick += new EventHandler(this.clockTimer_Tick);
+            clockDotTimer.Tick += new EventHandler(this.clockDotTimer_Tick);
             clockTimer.Start();
+            clockDotTimer.Start();
+        }
+
+        private void clockDotTimer_Tick(object sender, EventArgs e)
+        {
+            if (blink)
+            {
+                picDot1.BackColor = Color.Red;
+                picDot2.BackColor = Color.Red;
+                blink = false;
+            }
+            else if (!blink)
+            {
+                picDot1.BackColor = this.BackColor; ;
+                picDot2.BackColor = this.BackColor; ;
+                blink = true;
+            }
         }
 
         private void clockTimer_Tick(object sender, EventArgs e)
         {
             ResetColor();
 
+
             int clockSeconds = DateTime.Now.Second;
             string clockSecondsString = clockSeconds.ToString();
             char num0 = '0';
             char onlyDigit;
-            char firstDigit;
-            char secondDigit;
+            char firstDigit = clockSecondsString[0];
+            char secondDigit=clockSecondsString[0];
 
-            if(clockSeconds < 10)
+
+            if (clockSeconds < 10)
             {
                 onlyDigit = clockSecondsString[0];
                 DrawFirstDigit(num0);

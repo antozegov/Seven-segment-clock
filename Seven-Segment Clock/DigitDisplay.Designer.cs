@@ -204,6 +204,7 @@
             this.Controls.Add(this.picSegmentF1);
             this.Name = "DigitDisplay";
             this.Size = new System.Drawing.Size(235, 236);
+            this.Load += new System.EventHandler(this.DigitDisplay_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picSegmentD2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSegmentD1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSegmentA2)).EndInit();
